@@ -1,0 +1,30 @@
+# Compiled files
+*.class
+*.jar
+*.war
+
+# Build tools
+target/
+build/
+.gradle/
+bin/
+
+# IDE specific (IntelliJ)
+.idea/
+*.iml
+out/
+
+# IDE specific (Eclipse)
+.settings/
+.project
+.classpath
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Test server data (In case you run your server inside the project)
+plugins/
+world/
+logs/
+cache/
