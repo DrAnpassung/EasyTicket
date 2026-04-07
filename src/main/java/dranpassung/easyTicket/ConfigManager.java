@@ -15,27 +15,40 @@ public class ConfigManager {
     }
 
     public Component getPrefix() {
-        String prefix = plugin.getConfig().getString("settings.prefix", "&8[&bTicket&8]");
-        return LegacyComponentSerializer.legacyAmpersand().deserialize(prefix + " ");
+        String raw = plugin.getConfig().getString("gsettings.prefix", "&8[&bTicket&8]");
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(raw + " ");
     }
 
     public int getTicketLimit() {
-        return plugin.getConfig().getInt("settings.ticket-limit", 5);
+        return plugin.getConfig().getInt("gsettings.ticket-limit", 5);
     }
 
     public Sound getNotifySound() {
-        return Registry.SOUNDS.get(NamespacedKey.minecraft(plugin.getConfig().getString("sounds.notify", "BLOCK_NOTE_BLOCK_CHIME")));
+        return parseSound(plugin.getConfig().getString("sounds.notify",   "block.note_block.chime"), "block.note_block.chime");
     }
 
     public Sound getUiClickSound() {
-        return Registry.SOUNDS.get(NamespacedKey.minecraft(plugin.getConfig().getString("sounds.ui-click", "UI_BUTTON_CLICK")));
+        return parseSound(plugin.getConfig().getString("sounds.ui-click", "ui.button.click"),        "ui.button.click");
     }
 
     public Sound getErrorSound() {
-        return Registry.SOUNDS.get(NamespacedKey.minecraft(plugin.getConfig().getString("sounds.error", "ENTITY_VILLAGER_NO")));
+        return parseSound(plugin.getConfig().getString("sounds.error",    "entity.villager.no"),     "entity.villager.no");
     }
 
     public Sound getSuccessSound() {
-        return Registry.SOUNDS.get(NamespacedKey.minecraft(plugin.getConfig().getString("sounds.success", "ENTITY_PLAYER_LEVELUP")));
+        return parseSound(plugin.getConfig().getString("sounds.success",  "entity.player.levelup"),  "entity.player.levelup");
+    }
+
+    private Sound parseSound(String raw, String fallbackKey) {
+        if (raw != null && !raw.isBlank()) {
+            Sound sound = Registry.SOUNDS.get(NamespacedKey.minecraft(raw.toLowerCase()));
+            if (sound != null) return sound;
+
+            sound = Registry.SOUNDS.get(NamespacedKey.minecraft(raw.toLowerCase().replace('_', '.')));
+            if (sound != null) return sound;
+
+            plugin.getLogger().warning("[EasyTicket] Unknown sound '" + raw + "', falling back to " + fallbackKey);
+        }
+        return Registry.SOUNDS.get(NamespacedKey.minecraft(fallbackKey));
     }
 }
