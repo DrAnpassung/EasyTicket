@@ -9,7 +9,7 @@ settings:
   close-mode: "RIGHT_CLICK"
 
 sounds:
-  notify: "BLOCK_NOTE_BLOCK_CHIME"
-  ui-click: "UI_BUTTON_CLICK"
-  error: "ENTITY_VILLAGER_NO"
-  success: "ENTITY_PLAYER_LEVELUP"
+  notify:   "block.note_block.chime"
+  ui-click: "ui.button.click"
+  error:    "entity.villager.no"
+  success:  "entity.player.levelup"
